@@ -2,10 +2,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <style>
-        @import url("https://fonts.googleapis.com/css?family=Inconsolata:700");
+       @import url("https://fonts.googleapis.com/css?family=Inconsolata:700");
         
         body {
-            background-color: #252525;
+            background-color: #1f6f78;
             font-family: "Inconsolata", monospace;
             font-size: 33px;
             margin: 0px;
@@ -13,7 +13,7 @@
         }
 
         ul {
-            padding: 3%;
+            padding: 1px;
             list-style-type: none;
             display: table;
             margin: 0 auto;
@@ -26,7 +26,7 @@
 
         
         table, th, td {
-          border: px solid #252525;
+          border: px solid #93e4c1; 
           border-collapse: collapse;
         }
 
@@ -34,39 +34,34 @@
           vertical-align: middle;
           text-align: center;
           padding: 15px;
-          background-color: rgba(255,255,255,0.15);
-          color: white;
+          background-color: #93e4c1(255,255,255,0.15);
+          color: black;
           min-width: 150px;
+          background-color: #93e4c1; 
+         
+        }
 
-          background-color: crimson;
-          box-shadow: 0 0 15px crimson;
+        th.hd{
+          background-color: #3baea0;  
+        }
+
+        div{
+          padding-left: 3%;
         }
 
         button{ 
-          font-size: 10px;
           background-color: transparent;
           border: 0;
         }
 
-        form{ align-items: center; }
-
-        li { margin-bottom: 20px; }
-
-        table:nth-child(n+13) {visibility: hidden;}
-
-        td:hover {transform: scale(1.1); }
-
-        li:nth-child(1){ margin-top: 30px; }
-
-        li:last-child { margin-bottom: 0px; }
-
-        input:hover { cursor: pointer;}
-        
-        div { padding-left: 3%; }
-
-        .hd {
-          color: #252525;
-          font-size: 36px;
+        input{ 
+          font-family: "Inconsolata", monospace;
+          font-size: 14px;
+          color: black;
+          background-color: #93e4c1; 
+          border-top-style: hidden;
+          border-right-style: hidden;
+          border-left-style: hidden;
         }
 
         .fas{
@@ -74,45 +69,39 @@
             width: 45.5px;
             height: 48.5px;
             position: absolute;
-            color: crimson;
-            text-shadow:0 0 20px crimson;
+            color: #93e4c1; 
+            
             text-align: center;
             font-size: 1.9em;
         } 
 
-        .back-button{
-          position: absolute;
-          text-indent: -15px;
-          padding: 5px 0 5px 10px;
-          width: 10%;/* modified by label length */
-          overflow: auto;
-        }
-
         .fas:hover { cursor: pointer;}
 
-        ul.body-title {
-            padding: auto;
-            padding-left: 3%;
-            padding-top: 0%;
-            padding-bottom: 1%;
-            color: #252525;
-            font-size: 36px;
+        form{ align-items: center; }
+
+        li { margin-bottom: 40px; }
+
+        td:hover {transform: scale(1.1); }
+
+        table:nth-child(n+13) {visibility: hidden;}
+
+        li:nth-child(1){ margin-top: 30px; }
+
+        li:last-child { margin-bottom: 0px; }
+
+        input:hover { cursor: pointer;}
+
+        .hd {
+
+          color: black;
+          font-size: 36px;
         }
 
-        ul.body {
-            padding-left: 3%;
-            padding-top: 0%;
-            padding-bottom: 0;
-        }
-
-        input{ 
-          font-family: "Inconsolata", monospace;
-          font-size: 15px;
-          color: white;
-          background-color: crimson;
-          border-top-style: hidden;
-          border-right-style: hidden;
-          border-left-style: hidden;
+        .back-button{
+          text-indent: -15px;
+          padding: 5px 0 5px 10px;
+          width: 53px;/* modified by label length */
+          overflow: auto;
         }
 
     </style>

@@ -28,7 +28,7 @@ def index():
         
         # Ανακατεύθυνση σε μια σελίδα 404 αν το ερώτημα δεν είναι έγκυρο
         if (type(uquery) is int):
-            return redirect('404.html')
+            return redirect('Error.html')
         
         # Ανακατεύθυνση στη σελίδα αποτελεσμάτων αν η επεξεργασία του ερωτήματος είναι επιτυχής
         return redirect('/result')
@@ -122,7 +122,7 @@ def party():
 # Χειριστής σφαλμάτων για σφάλματα 404 Not Found
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('Error.html'), 404
 
 
 # Εκτελέστε την εφαρμογή Flask
