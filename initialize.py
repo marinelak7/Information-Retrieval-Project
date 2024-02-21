@@ -19,15 +19,26 @@ def readCSV():
     Data = Data_temp.loc[(Data_temp['political_party'] != 'βουλη')] #Φιλτράρει τις γραμμές από αυτό το DataFrame όπου η τιμή στη στήλη 'political_party' είναι 'βουλη'
     Data.reset_index(drop=True, inplace=True)  #Ο δείκτης του DataFrame μηδενίζεται έτσι ώστε να ξεκινάει από το 0 και να αυξάνεται κατά 1. Αυτό γίνεται με τη μέθοδο `reset_index()` με το όρισμα `drop=True`, το οποίο εμποδίζει την προσθήκη του παλιού δείκτη ως νέας στήλης στο DataFrame.
 
-    stop_words_array = []
-    
+    #stop_words_array = []
+    stop_words_array = read_stop_words()
     # Διάβασε τις λέξεις στάσης από ένα αρχείο και αποθήκευσε τες σε μια λίστα
-    with open(".\\app_files\stopwords.txt", "r", encoding="utf8") as file: #Ανοίγει ένα αρχείο με όνομα `stopwords.txt` που βρίσκεται στον κατάλογο ".\app_files\" σε κατάσταση ανάγνωσης με κωδικοποίηση utf-8.
-        for stopword in file.readlines():
-            stopword = stopword[:-1] # Αφαιρέστε τον χαρακτήρα νέας γραμμής
-            stop_words_array.append(stopword)
+    #with open(".\\app_files\stopwords.txt", "r", encoding="utf8") as file: #Ανοίγει ένα αρχείο με όνομα `stopwords.txt` που βρίσκεται στον κατάλογο ".\app_files\" σε κατάσταση ανάγνωσης με κωδικοποίηση utf-8.
+     #   for stopword in file.readlines():
+      #      stopword = stopword[:-1] # Αφαιρέστε τον χαρακτήρα νέας γραμμής
+       #     stop_words_array.append(stopword)
+       
     print('Done!')
     return Data, stop_words_array 
+
+def read_stop_words():
+    stop_words_array = []
+    with open(".\\app_files\stopwords.txt", "r", encoding="utf8") as file: #Ανοίγει ένα αρχείο με όνομα `stopwords.txt` που βρίσκεται στον κατάλογο ".\app_files\" σε κατάσταση ανάγνωσης με κωδικοποίηση utf-8.
+        for stopword in file.readlines():
+            stopword = stopword.strip() # Αφαιρέστε τον χαρακτήρα νέας γραμμής
+            stop_words_array.append(stopword)
+            
+    return stop_words_array
+
 
 """
 Επιστρέφει:
@@ -50,16 +61,11 @@ def init():
     Data_length = len(Data_list) # Υπολογίστε το μήκος των δεδομένων
 
     # Αρχικοποίηση λεξικών και μεταβλητών για την αποθήκευση επεξεργασμένων δεδομένων
-    index_dict = {}
-    words_dict = {}
-    tags_dict = {}
-    member_dict = {}
-    party_dict = {}
+    index_dict, words_dict, tags_dict, member_dict, party_dict = {}, {}, {}, {}, {}
 
     # Αρχικοποίηση μεταβλητών για την παρακολούθηση της προόδου
     past_percentage = 0
-    index = 0
-    id = 0
+    id, index = 0, 0
 
     #CHANGE THIS VARIABLE TO MODIFY THE AMOUNT OF DATA THAT'LL BE PROCESSED (HIGHER == LESS DATA, ALL DATA == 1)
     ################################
@@ -82,7 +88,7 @@ def init():
         speech_list = speech.split(' ') # Διαχωρίστε την ομιλία σε μια λίστα λέξεων
         
         # Ελέγξτε τις συνθήκες για την επεξεργασία της ομιλίας
-        if (len(speech_list) > 100 and index%increment == 0 and type(name) == str and type(party) == str):
+        if (len(speech_list) > 100 and index%increment == 0 and isinstance(name, str) and isinstance(party, str)):
             result, tags = dp.process(speech, stop_words_array)
 
             # Ελέγξτε αν το αποτέλεσμα της επεξεργασίας είναι έγκυρο
@@ -121,11 +127,16 @@ def init():
         index += 1    
 
         # Εκτύπωση ποσοστού επεξεργασίας
-        percentage = int(index/Data_length*100)
-        if (past_percentage != percentage):
-            print('Processing: ' + str(percentage) + '%')
-            past_percentage = percentage
+        past_percentage = print_progress(index, Data_length, past_percentage)
 
     print('Done!')
     return Data, index_dict, words_dict, stop_words_array, member_dict, party_dict, tags_dict 
 
+
+def print_progress(index, Data_length, past_percentage):
+    # Εκτύπωση ποσοστού επεξεργασίας
+        percentage = int(index/Data_length*100)
+        if (past_percentage != percentage):
+            print('Processing: ' + str(percentage) + '%')
+        
+        return percentage
