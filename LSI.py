@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 import data_processing as dp
 import data_initialization as initiliaze
+import ReadCSV as r
 
 """
 Performs LSI on the sittings in order to extract topics. 
@@ -10,7 +11,7 @@ The number of topics was extracted by studying the topic number - strength plot.
 """
 
 # speech data
-Data, stop_words_array = initiliaze.readCSV()
+Data, stop_words_array = r.readCSV()
 Data_list = Data['speech'].values.tolist()
 Data_length = len(Data_list)
 

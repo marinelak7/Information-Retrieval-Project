@@ -2,6 +2,7 @@ import data_processing as dp
 import data_initialization as initialize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import ReadCSV as r
 
 """
 Makes a file with the top k similar speakers
@@ -9,7 +10,7 @@ Makes a file with the top k similar speakers
 Uses cosine similarity
 """
 def topk_similar(k):
-    Data, stop_words_array = initialize.readCSV()
+    Data, stop_words_array = r.readCSV()
     Data_list = Data['speech'].values.tolist()
     Data_length = len(Data_list)
 

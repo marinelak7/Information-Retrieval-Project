@@ -1,6 +1,7 @@
 import pandas as pd
 import data_processing as dp
 import warnings
+import ReadCSV as r
 
 # Ignore warnings
 warnings.filterwarnings("ignore")
@@ -10,7 +11,7 @@ Returns two lists: The first is a dataframe containing the content of the CSV fi
                     and the second contains the stop words from the stopwords.txt file.
 """
 
-
+"""
 def readCSV():
     print("Reading CSV and StopWords file...")
     #Data_temp = pd.read_csv('Greek_Parliament_Proceedings_1989_2020.csv')
@@ -38,7 +39,7 @@ def read_stop_words():
             stop_words_array.append(stopword)
             
     return stop_words_array
-
+"""
 
 """
 Επιστρέφει:
@@ -56,7 +57,7 @@ def read_stop_words():
 """
 def init():
     
-    Data, stop_words_array = readCSV() # Ανάγνωση δεδομένων από το αρχείο CSV και λήψη πίνακα stop words
+    Data, stop_words_array = r.readCSV() # Ανάγνωση δεδομένων από το αρχείο CSV και λήψη πίνακα stop words
     Data_list = Data['speech'].values.tolist() # Μετατροπή της στήλης ομιλίας από DataFrame σε λίστα
     Data_length = len(Data_list) # Υπολογίστε το μήκος των δεδομένων
 
