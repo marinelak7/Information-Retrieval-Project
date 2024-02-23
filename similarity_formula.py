@@ -8,30 +8,30 @@ Returns the sim_dict dictionary containing the 5 most relevant speeches' ids (ke
 Using the word dictionary, it calculates the tf_idf score of every document that contains at least one word that's contained in the query
 The similarity formula is mentioned in the essay/report
 """
-def doc_query_similarity(words_dict, query):
-    index_dict = {} # Λεξικό για την αντιστοίχιση δεικτών σε αναγνωριστικά εγγράφων
+def doc_query_similarity(words_dictionary, query):
+    index_dictionary = {} # Λεξικό για την αντιστοίχιση δεικτών σε αναγνωριστικά εγγράφων
     index = 0
     Tf_idf_dict = {} # Λεξικό για την αποθήκευση της βαθμολογίας tf-idf για κάθε έγγραφο
 
     # Εύρεση σχετικών εγγράφων (έγγραφα που περιέχουν τουλάχιστον μία λέξη από το ερώτημα)
     Docs_To_Search = []
     for word in query:
-        if word in words_dict:
-            for id in words_dict[word]:
-                if id not in index_dict:
+        if word in words_dictionary:
+            for id in words_dictionary[word]:
+                if id not in index_dictionary:
                     Docs_To_Search.append(id)
                     Tf_idf_dict[id] = []
-                    index_dict[index] = id
+                    index_dictionary[index] = id
                     index += 1
 
     # Υπολογισμός της βαθμολογίας tf-idf για κάθε έγγραφο και λέξη στο ερώτημα
     query_vector = []
     for word in query:
-        if word in words_dict:
+        if word in words_dictionary:
             
             #Idf υπολογισμός
             N = len(Tf_idf_dict) + 1 # Συνολικός αριθμός εγγράφων
-            Nt = len(words_dict[word]) + 1 # Αριθμός εγγράφων που περιέχουν τη λέξη
+            Nt = len(words_dictionary[word]) + 1 # Αριθμός εγγράφων που περιέχουν τη λέξη
             Idf = log(1 + N/Nt) # Υπολογισμός αντίστροφης συχνότητας εγγράφων (idf)
 
             # Υπολογισμός της βαθμολογίας tf-idf για τη λέξη στο ερώτημα
@@ -39,14 +39,14 @@ def doc_query_similarity(words_dict, query):
 
             # Υπολογισμός της βαθμολογίας tf-idf για τη λέξη σε κάθε σχετικό έγγραφο
             for id in Tf_idf_dict:
-                if id not in words_dict[word]:
+                if id not in words_dictionary[word]:
 
                     Tf_idf_dict[id].append(0.0)
 
                 else:
 
                     #Tf υπολογισμός
-                    Tf = 1 + log(words_dict[word][id]) # Υπολογισμός συχνότητας όρων (tf)
+                    Tf = 1 + log(words_dictionary[word][id]) # Υπολογισμός συχνότητας όρων (tf)
 
                     #Tf_Idf υπολογισμός
                     Tf_idf_dict[id].append(Tf * Idf) # Υπολογισμός της βαθμολογίας Tf-idf για τη λέξη στο έγγραφο
@@ -57,10 +57,6 @@ def doc_query_similarity(words_dict, query):
             for id in Tf_idf_dict:
                 Tf_idf_dict[id].append(0.0)
 
-    #Docs_matrix = [] # Μετατροπή του Tf_idf_dict σε πίνακα numpy για αποδοτικούς υπολογισμούς
-    #for id in Tf_idf_dict:
-     #   Docs_matrix.append(Tf_idf_dict[id])
-    #Docs_matrix = np.array(Docs_matrix)
     Docs_matrix = np.array([Tf_idf_dict[id] for id in Tf_idf_dict])
     query_vector = np.array(query_vector)                
 
@@ -72,7 +68,7 @@ def doc_query_similarity(words_dict, query):
             sim_value = sum(Docs_matrix[i])/(np.linalg.norm(Docs_matrix[i]) * np.linalg.norm(query_vector))
         else:
             sim_value = sum(Docs_matrix[i])
-        similarity_dict[index_dict[i]] = sim_value
+        similarity_dict[index_dictionary[i]] = sim_value
 
     # Ταξινόμηση του λεξικού ομοιότητας και εξαγωγή των 5 πιο σχετικών εγγράφων
     heap = [(-value, key) for key, value in similarity_dict.items()]
@@ -83,4 +79,4 @@ def doc_query_similarity(words_dict, query):
     for tuple in sim_list:
         sim_dict[tuple[1]] = -1 * tuple[0]
     
-    return sim_dict   
+    return sim_dict

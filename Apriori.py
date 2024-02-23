@@ -1,5 +1,5 @@
 import data_processing as dp
-import initialize as init
+import data_initialization as initiliaze
 import pandas as pd
 from collections import Counter
 from mlxtend.frequent_patterns import apriori, association_rules
@@ -18,7 +18,7 @@ user_useless_tags: Words that won't be used in the rules
 minimum_support: Minimum support that the rules must have
 """
 def make_rules(start_year = 'None', end_year = 'None', pref_speaker = 'None', pref_party = 'None', pref_word = 'None', user_useless_tags = [], minimum_support = 0.03):
-    Data, stop_words_array = init.readCSV()
+    Data, stop_words_array = initiliaze.readCSV()
     Data_list = Data['speech'].values.tolist()
     Data_length = len(Data_list)
 

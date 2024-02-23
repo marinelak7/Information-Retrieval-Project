@@ -1,5 +1,5 @@
 import data_processing as dp
-import initialize as init
+import data_initialization as initialize
 from collections import Counter
 
 """
@@ -8,7 +8,7 @@ Makes 2 .txt files for keywords by member and by party (on ascending order from 
 Uses the term frequency to determine importance
 """
 def find_KeyWords():
-    Data, stop_words_array = init.readCSV()
+    Data, stop_words_array = initialize.readCSV()
     Data_list = Data['speech'].values.tolist()
     Data_length = len(Data_list)
 
