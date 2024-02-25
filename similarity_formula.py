@@ -2,12 +2,7 @@ from math import log
 from heapq import nsmallest
 import numpy as np
 
-"""
-Returns the sim_dict dictionary containing the 5 most relevant speeches' ids (key) along with their rating (value)
 
-Using the word dictionary, it calculates the tf_idf score of every document that contains at least one word that's contained in the query
-The similarity formula is mentioned in the essay/report
-"""
 def doc_query_similarity(words_dictionary, query):
     index_dictionary = {} # Λεξικό για την αντιστοίχιση δεικτών σε αναγνωριστικά εγγράφων
     index = 0

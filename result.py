@@ -97,13 +97,3 @@ def retrieve_sittings_for_party(party, data_frame, index_dictionary, tags_dictio
     
     
 
-"""# for testing
-if __name__ == "__main__":
-    global data_frame, member_dictionary, party_dictionary, tags_dictionary
-    data_frame, Docs, index_dictionary, words_dictionary, stop_words_array, member_dictionary, party_dictionary, tags_dictionary = initialize.init()
-    
-    #sit = get_sittings_by_speaker(speaker='αραμπατζη αθανασιου φωτεινη', data_frame=data_frame, index_dictionary=index_dictionary, tags_dictionary=tags_dictionary, member_dictionary=member_dictionary)
-   # print(sit[::-1])
-    sit = retrieve_sittings_for_party(party='νεα δημοκρατια', data_frame=data_frame, index_dictionary=index_dictionary, tags_dictionary=tags_dictionary, party_dictionary=party_dictionary, member_dictionary=member_dictionary)
-    print(len(sit))
-"""

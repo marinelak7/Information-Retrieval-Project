@@ -1,113 +1,74 @@
 import data_processing as dp
-import data_initialization as initialize
-from collections import Counter
 import ReadCSV as r
+from collections import Counter
 
-"""
-Makes 2 .txt files for keywords by member and by party (on ascending order from oldest date to newest)
-
-Uses the term frequency to determine importance
-"""
-def find_KeyWords():
-    Data, stop_words_array = r.readCSV()
-    Data_list = Data['speech'].values.tolist()
-    Data_length = len(Data_list)
-
+def preprocess_speeches(Data, stop_words_array, increment):
     date_dict_member = {}
     date_dict_party = {}
-
+    Data_list = Data['speech'].values.tolist()  # Moved inside the function
+    Data_length = len(Data_list)
     past_percentage = 0
     index = 0
-    id = 0
 
-    #CHANGE THIS VARIABLE TO MODIFY THE AMOUNT OF DATA THAT'LL BE PROCESSED (HIGHER == LESS DATA, ALL DATA == 1)
-    ################################
-    increment = 5
-    ################################
-
-    if (increment <= 0):
-        print('Increment can\'t be less than 1. (Set automatically to 1)')
-        increment = 1
-
-    #Processes the speeches(without stemming) and makes dictionaries based on the dates for the members and parties
-    print ('Processing: 0%')
+    print('Processing: 0%')
     for speech in Data_list:
-
         speech_list = speech.split(' ')
-        if (len(speech_list) > 100 and index%increment == 0):
+        if len(speech_list) > 100 and index % increment == 0:
             result = dp.preprocess(speech, stop_words_array)
             name = Data['member_name'][index]
             party = Data['political_party'][index]
 
-            if (result != [] and type(name) == str and type(party) == str):
-                
+            if result and isinstance(name, str) and isinstance(party, str):
                 date_temp = Data['sitting_date'][index]
                 date = date_temp[-4:]
-                
+
                 if date in date_dict_member:
-                    if name in date_dict_member[date]:
-                        date_dict_member[date][name] = date_dict_member[date][name] + ' ' + result
-                    else:
-                        date_dict_member[date][name] = result
+                    date_dict_member[date][name] = date_dict_member[date].get(name, '') + ' ' + result
                 else:
-                    date_dict_member[date] = {name:result}
+                    date_dict_member[date] = {name: result}
 
                 if date in date_dict_party:
-                    if party in date_dict_party[date]:
-                        date_dict_party[date][party] = date_dict_party[date][party] + ' ' + result
-                    else:
-                        date_dict_party[date][party] = result
+                    date_dict_party[date][party] = date_dict_party[date].get(party, '') + ' ' + result
                 else:
-                    date_dict_party[date] = {party:result}
-            
-                id += 1
+                    date_dict_party[date] = {party: result}
 
-        index += 1    
-        
-        percentage = int(index/Data_length*100)
-        if (past_percentage != percentage):
+        index += 1
+        percentage = int(index / Data_length * 100)
+        if past_percentage != percentage:
             print('Processing: ' + str(percentage) + '%')
             past_percentage = percentage
 
-    print('Done!')
+    print('Preprocessing Done!')
+    return date_dict_member, date_dict_party
 
-    #Makes the first file, writing the 15 most frequent terms (key words) said by the members sorted by the sitting date
-    file = open(".\\generated_files\MemberKeyWords.txt", "w", encoding="utf-8")
-    for date in date_dict_member:
-        file.write('Year: ' + str(date) + '\n============================\n============================\n')
-        for name in date_dict_member[date]:
-            file.write(name + ':\n')
-            dict_list = date_dict_member[date][name].split(' ')
-            word_frequency = Counter(dict_list)
 
-            tags = word_frequency.most_common(15)
-            tags1 = []
-            for tag in tags:
-                 tags1.append(tag[0])
-            file.write(', '.join(tags1))
-            file.write('\n-------------\n')
-    
-    file.close()
+def write_keywords_to_file(date_dict, file_path):
+    with open(file_path, "w", encoding="utf-8") as file:
+        for date, data in date_dict.items():
+            file.write('Year: ' + str(date) + '\n============================\n============================\n')
+            for key, value in data.items():
+                file.write(key + ':\n')
+                dict_list = value.split(' ')
+                word_frequency = Counter(dict_list)
+                tags = word_frequency.most_common(15)
+                tags1 = [tag[0] for tag in tags]
+                file.write(', '.join(tags1))
+                file.write('\n-------------\n')
+    print('File made!')
 
-    #Makes the first file, writing the 15 most frequent terms (key words) said by the parties sorted by the sitting date
-    file1 = open(".\\generated_files\PartyKeyWords.txt", "w", encoding="utf-8")
-    for date in date_dict_party:
-        file1.write('Year: ' + str(date) + '\n============================\n============================\n')
-        for party in date_dict_party[date]:
-            file1.write(party + ':\n')
-            dict_list = date_dict_party[date][party].split(' ')
-            word_frequency = Counter(dict_list)
 
-            tags = word_frequency.most_common(15)
-            tags1 = []
-            for tag in tags:
-                tags1.append(tag[0])
-            file1.write(', '.join(tags1))
-            file1.write('\n-------------\n')
+def find_KeyWords():
+    Data, stop_words_array = r.readCSV()
+    increment = 5
 
-    file1.close()
-    print('\nFiles made!')
+    if increment <= 0:
+        print('Increment can\'t be less than 1. (Set automatically to 1)')
+        increment = 1
 
-##################################
-##################################
+    date_dict_member, date_dict_party = preprocess_speeches(Data, stop_words_array, increment)
+
+    write_keywords_to_file(date_dict_member, ".\\output_files\MemberKeywordsAnalysis.txt")
+    write_keywords_to_file(date_dict_party, ".\\output_files\PartyKeywordsAnalysis.txt")
+
+
 find_KeyWords()

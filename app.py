@@ -118,7 +118,7 @@ def party():
             return redirect('/speaker')
 
     # Εκτέλεση του προτύπου party.html με τα δεδομένα που ανακτήθηκαν
-    return render_template('party.html', sittings = data, party_name = party_name), 404
+    return render_template('party.html', sittings = data, party_name = party_name)
 
 # Χειριστής σφαλμάτων για σφάλματα 404 Not Found
 @app.errorhandler(404)
@@ -227,7 +227,7 @@ def speaker():
             return redirect('/party')
 
     # Εκτέλεση του προτύπου speaker.html με τα δεδομένα που ανακτήθηκαν
-    return render_template('speaker.html', sittings = sittings, speaker_name = speaker_name), 404
+    return render_template('speaker.html', sittings = sittings, speaker_name = speaker_name)
 
 @app.route('/party', methods=['GET', 'POST'])
 def party():
@@ -255,7 +255,4 @@ def page_not_found(e):
 
 # Εκτελέστε την εφαρμογή Flask
 if __name__ == '__main__':
-    #global Data, index_dict, words_dict, member_dict, party_dict, tags_dict, stop_words_array, fs
-    #Data, index_dict, words_dict, stop_words_array, member_dict, party_dict, tags_dict = init.init()
-    #fs = 0
     app.run(debug=False)
