@@ -49,7 +49,7 @@ def preprocess_data(Data, stop_words_array):
         
         percentage = int(index / Data_length * 100)
         if past_percentage != percentage:
-            print('Processing: ' + str(percentage) + '%')
+            print('Επεξεργασία: ' + str(percentage) + '%')
             past_percentage = percentage
 
     print('Preprocessing Done!')

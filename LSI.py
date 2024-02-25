@@ -38,6 +38,6 @@ lsa.fit_transform(result)
 transformed_topics = lsa.transform(result)
 for n in range(transformed_topics.shape[0]):
     topic_most_probable = transformed_topics[n].argmax()
-    file = open("LSItopics.txt", "a") 
+    file = open(".\\output_files\stopwords.txt", "a") 
     file.write("doc: {} topic: {}\n".format(n, topic_most_probable))
     file.close()

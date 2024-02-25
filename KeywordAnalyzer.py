@@ -10,7 +10,7 @@ def preprocess_speeches(Data, stop_words_array, increment):
     past_percentage = 0
     index = 0
 
-    print('Processing: 0%')
+    print('Επεξεργασία: 0%')
     for speech in Data_list:
         speech_list = speech.split(' ')
         if len(speech_list) > 100 and index % increment == 0:
@@ -35,10 +35,10 @@ def preprocess_speeches(Data, stop_words_array, increment):
         index += 1
         percentage = int(index / Data_length * 100)
         if past_percentage != percentage:
-            print('Processing: ' + str(percentage) + '%')
+            print('Επεξεργασία: ' + str(percentage) + '%')
             past_percentage = percentage
 
-    print('Preprocessing Done!')
+    print('Η επεξεργασία ολοκληρώθηκε!')
     return date_dict_member, date_dict_party
 
 
